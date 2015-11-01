@@ -12,13 +12,14 @@ function convert_to_csv() {
 	COUNTER=0 
 	for LINE in "${LINES[@]}";
 	do
-		if [ $COUNTER -eq  2 ]; then
+		if [ $COUNTER -eq 3 ]; then
 			printf `echo $LINE | cut -d' ' -f2` >> test_scores.csv 
 		else
 			printf `echo $LINE | cut -d' ' -f2`, >> test_scores.csv
 		fi
 	let COUNTER=COUNTER+1 
 	done
+	printf `date +%x_%H:%M:%S` >> test_scores.csv
 	echo "" >> test_scores.csv
 }
 
