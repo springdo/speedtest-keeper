@@ -9,12 +9,12 @@ function run_speed_test() {
 
 function convert_to_csv() {
 	echo "Running convert to csv task"
-	printf `date +%x_%H:%M:%S` >> test_scores.csv
+	printf `date +%x_%H:%M:%S`, >> test_scores.csv
 	readarray -t LINES < test_scores.txt
 	COUNTER=0 
 	for LINE in "${LINES[@]}";
 	do
-		if [ $COUNTER -eq 3 ]; then
+		if [ $COUNTER -eq 2 ]; then
 			printf `echo $LINE | cut -d' ' -f2` >> test_scores.csv 
 		else
 			printf `echo $LINE | cut -d' ' -f2`, >> test_scores.csv
