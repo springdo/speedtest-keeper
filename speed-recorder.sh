@@ -27,7 +27,7 @@ function convert_to_csv() {
 
 function save_to_google_drive() {
 	echo "Running google drive sync"
-	FILE_ID=0B9cSA9fROng1NDY3YlJCbnB0ajQ
+	FILE_ID=1OiMAZmSTXc34bguN5nhpKIgYow0p_x26DGAANdSnxNM
 	curl -k -i -X PUT -H "Content-Type: text/plain" -H "Content-Length: ${CONTENT_LEN}"  -H "Authorization: Bearer ${ACCESS_TOKEN}" --data-binary @test_scores.csv  https://www.googleapis.com/upload/drive/v2/files/${FILE_ID}\?uploadType\=media
 }
 
@@ -54,7 +54,7 @@ function clean_up() {
 
 
 
-run_speed_test
+#run_speed_test
 
 convert_to_csv
 
