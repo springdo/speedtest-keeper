@@ -35,6 +35,10 @@ function get_auth_token() {
 	echo "Getting Authtoken"
 	ACCESS_TOKEN=`curl -k -d "client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&refresh_token=${GOOGLE_CLIENT_REFRESH_TOKEN}&grant_type=refresh_token" https://www.googleapis.com/oauth2/v3/token  | jq '.access_token'`
 	echo $ACCESS_TOKEN
+	if [ $ACCESS_TOKEN == 'null' ]; then
+		clean_up
+		exit 99999
+	fi
 }
 
 function calc_cont_length() {
@@ -60,8 +64,5 @@ calc_cont_length
 
 save_to_google_drive
 
-
-
-
-
+clean_up
 
