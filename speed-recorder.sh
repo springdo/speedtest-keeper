@@ -54,7 +54,7 @@ function clean_up() {
 
 
 
-#run_speed_test
+run_speed_test
 
 convert_to_csv
 
