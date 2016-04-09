@@ -7,6 +7,16 @@ function run_speed_test() {
 }
 
 
+function prepare_tweet() {
+	echo "reparing tweet"
+	export DATA='{"ping":"'$PING'","download":"'$DOWNLOAD_SPEED'","upload":"'$UPLOAD_SPEED'"}'
+	echo $DATA
+	curl -X POST -H "Content-Type: application/json" -d $DATA  http://speed-tweet.eu-gb.mybluemix.net/tweetme  && rc=$? || rc=$?
+	echo "Error code from tweet is : " $rc 
+
+}
+
+
 function convert_to_csv() {
 	echo "Running convert to csv task"
 	printf `date +%x_%H:%M:%S`, >> test_scores.csv
@@ -15,9 +25,14 @@ function convert_to_csv() {
 	for LINE in "${LINES[@]}";
 	do
 		if [ $COUNTER -eq 2 ]; then
-			printf `echo $LINE | cut -d' ' -f2` >> test_scores.csv 
-		else
-			printf `echo $LINE | cut -d' ' -f2`, >> test_scores.csv
+			export UPLOAD_SPEED=`echo $LINE | cut -d' ' -f2`
+			printf $UPLOAD_SPEED >> test_scores.csv 
+		elif [ $COUNTER -eq 1 ]; then
+                        export DOWNLOAD_SPEED=`echo $LINE | cut -d' ' -f2`
+                        printf $DOWNLOAD_SPEED, >> test_scores.csv
+		else	
+			export PING=`echo $LINE | cut -d' ' -f2`
+			printf $PING, >> test_scores.csv
 		fi
 	let COUNTER=COUNTER+1 
 	done
@@ -57,6 +72,8 @@ function clean_up() {
 run_speed_test
 
 convert_to_csv
+
+prepare_tweet
 
 get_auth_token
 
